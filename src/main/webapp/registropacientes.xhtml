@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3c.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui" 
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head></h:head>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head><title>Registro paciente</title></h:head>
     <h:body>
+        <p:panel header="Agregar nuevo item" visible="true" widgetVar="PanelNuevoItem" >
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel value="Documento identidad" ></p:outputLabel>
+                <p:inputText id="Id" value="#{HistorialPacientes.id}"/>
+                
+                <p:outputLabel value="Tipo de documento"></p:outputLabel>
+                <p:inputText id="TipoId" value="#{HistorialPacientes.tipoId}"/>
+                
+                <p:outputLabel value="Nombre del paciente"></p:outputLabel>
+                <p:inputText id="nombre" value="#{HistorialPacientes.nombre}"/>
+                
+                <p:outputLabel value="Fecha nacimiento"></p:outputLabel>
+                <p:calendar id="Fnaci" value="#{HistorialPacientes.fechaNacimiento}" showOn="button" />
+                
+                <p:outputLabel value="EPS"></p:outputLabel>
+                <h:selectOneMenu id="eps" value="#{HistorialPacientes.fechaNacimiento}">
+                    <f:selectItems value="#{HistorialPacientes.epsRegistradas}" />
+                </h:selectOneMenu>
+                
+                <p:commandButton value="Registrar" ></p:commandButton>
+            </h:panelGrid>
+        </p:panel>
     </h:body>
 </html>
