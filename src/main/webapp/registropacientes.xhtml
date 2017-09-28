@@ -3,10 +3,11 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    <h:head><title>Registro paciente</title></h:head>
+    <h:head><title></title></h:head>
     <h:body>
-        <p:panel header="Agregar nuevo item" visible="true" widgetVar="PanelNuevoItem" >
+        <p:panel id="Registro_paciente" header="Registro de pacientes" visible="true" widgetVar="PanelNuevoItem" >
             <h:panelGrid columns="2" cellpadding="5">
+                
                 <p:outputLabel value="Documento identidad" ></p:outputLabel>
                 <p:inputText id="Id" value="#{HistorialPacientes.id}"/>
                 
@@ -20,12 +21,19 @@
                 <p:calendar id="Fnaci" value="#{HistorialPacientes.fechaNacimiento}" showOn="button" />
                 
                 <p:outputLabel value="EPS"></p:outputLabel>
-                <h:selectOneMenu id="eps" value="#{HistorialPacientes.fechaNacimiento}">
-                    <f:selectItems value="#{HistorialPacientes.epsRegistradas}" />
+                <h:selectOneMenu id="eps" value="#{HistorialPacientes.eps}">
+                    <f:selectItems value="#{HistorialPacientes.nombreEps}" />
                 </h:selectOneMenu>
-                
-                <p:commandButton value="Registrar" ></p:commandButton>
+                <p:commandButton value="Registrar" actionListener="#{HistorialPacientes.imprimir()}"></p:commandButton>
             </h:panelGrid>
+        </p:panel>
+        <p:panel id="pacientes" header="Pacientes" visible="true">
+            <p:dataTable var="i" value="#{HistorialPacientes.mostrarPacientes()}" selectionMode="single" selection="#{HistorialPacientes.paciente}" rowKey="#{i.id}">
+                <p:column headerText="Nombre Pacientes">
+                    <h:outputText value="#{i.nombre}"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="Registrar Cita" actionListener="#{HistorialPacientes.imprimir()}" action="registroconsultas"></p:commandButton>
         </p:panel>
     </h:body>
 </html>

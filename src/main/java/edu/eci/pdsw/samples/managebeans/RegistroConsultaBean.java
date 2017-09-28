@@ -6,13 +6,14 @@
 package edu.eci.pdsw.samples.managebeans;
 
 
-import com.google.common.base.Strings;
 import edu.eci.pdsw.samples.entities.Eps;
+import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,8 +35,18 @@ public class RegistroConsultaBean implements Serializable {
     private int id;
     private String tipoId;
     private Date fechaNacimiento;
-    private Eps eps;
-    private List<String> nombreEps;
+    private String eps;
+    private List<String> nombreEps = new ArrayList<String>();
+    private Paciente paciente;
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
 
 
 
@@ -84,21 +95,54 @@ public class RegistroConsultaBean implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Eps getEps() {
+    public String getEps() {
         return eps;
     }
 
-    public void setEps(Eps eps) {
+    public void setEps(String eps) {
         this.eps = eps;
     }
     
-    public List<String> epsRegistradas() throws ExcepcionServiciosPacientes{
+    public List<String> getNombreEps() throws ExcepcionServiciosPacientes {
+        epsRegistradas();
+        return nombreEps;
+    }
+
+    public void setNombreEps(List<String> nombreEps) {
+        this.nombreEps = nombreEps;
+    }
+    
+    public void epsRegistradas() throws ExcepcionServiciosPacientes{
         for(Eps epss:servicepacientes.obtenerEPSsRegistradas()){
             nombreEps.add(epss.getNombre());
         }
-        
-        return nombreEps;
+
     }
+    
+    public Eps buscarEps() throws ExcepcionServiciosPacientes{
+        Eps variable=null;
+        for(Eps i: servicepacientes.obtenerEPSsRegistradas()){
+            if(i.getNombre().equals(eps)){
+                variable=i;
+            }
+        }
+        return variable;
+    }
+    
+    public void imprimir(){
+        System.out.println("hola mundo");
+    }
+    
+    public void registrarPaciente() throws ExcepcionServiciosPacientes{
+        System.out.println(servicepacientes.consultarPacientes().size());
+        servicepacientes.registrarNuevoPaciente(new Paciente(id,tipoId,nombre,fechaNacimiento,buscarEps()));
+        System.out.println(servicepacientes.consultarPacientes().size());
+    }
+    
+    public List<Paciente> mostrarPacientes() throws ExcepcionServiciosPacientes{
+        return servicepacientes.consultarPacientes();
+    }
+    
 
 
 }

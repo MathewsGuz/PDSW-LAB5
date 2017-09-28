@@ -61,7 +61,6 @@ public class ServiciosPacientesMock implements ServiciosPacientes {
 
     @Override
     public void registrarNuevoPaciente(Paciente paciente) throws ExcepcionServiciosPacientes {
-        
         pacientes.put(new Tupla<>(paciente.getId(), paciente.getTipoId()), paciente);
         
     }
