@@ -76,7 +76,7 @@ public class ServiciosPacientesTest {
     public void RegistroPacientesTestCE1(){
         try{
             servicepacientes.registrarNuevoPaciente(paciente1);
-            assertTrue(servicepacientes.consultarPaciente(0, "cc").equals(paciente1));
+            assertTrue(servicepacientes.consultarPaciente(10, "cc").equals(paciente1));
         }catch(ExcepcionServiciosPacientes e){
             fail("Se ha producido una excepción:" + e.getMessage());
         }
