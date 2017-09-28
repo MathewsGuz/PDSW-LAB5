@@ -39,13 +39,6 @@ public class RegistroConsultaBean implements Serializable {
     private List<String> nombreEps = new ArrayList<String>();
     private Paciente paciente;
 
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
 
 
 
@@ -62,6 +55,15 @@ public class RegistroConsultaBean implements Serializable {
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, estado, mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
+    
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
     
     public String getNombre() {
         return nombre;
@@ -134,9 +136,8 @@ public class RegistroConsultaBean implements Serializable {
     }
     
     public void registrarPaciente() throws ExcepcionServiciosPacientes{
-        System.out.println(servicepacientes.consultarPacientes().size());
         servicepacientes.registrarNuevoPaciente(new Paciente(id,tipoId,nombre,fechaNacimiento,buscarEps()));
-        System.out.println(servicepacientes.consultarPacientes().size());
+        paciente = servicepacientes.consultarPaciente(id, tipoId);
     }
     
     public List<Paciente> mostrarPacientes() throws ExcepcionServiciosPacientes{
