@@ -57,17 +57,17 @@ public class ServiciosPacientesTest {
         servicepacientes = ServiciosHistorialPacientesFactory.getInstance().getServiciosPaciente();
     }
 //    EQ1
-//    Descripcion :Consultara todos los pacientes registrados 
-//    Resultado: una lista de pacientes
+//    Descripcion :Deberia confirmar que un paciente se encuentra registrado
+//    Resultado:  True
     
     @Test
     public void pruebaRegistroDeConsulta() throws ExcepcionServiciosPacientes{
         eps7 = new Eps("famisanar", "01234567890-2");
+        servicepacientes.obtenerEPSsRegistradas().add(eps7);
         mateo = new Paciente(10142,"CC", "Julian Diaz", java.sql.Date.valueOf("1956-05-01"), eps7);
         consulta= new Consulta(java.sql.Date.valueOf("2000-02-09"), "Dolor de oido", 322);
         servicepacientes.registrarNuevoPaciente(mateo);
-        System.out.println(servicepacientes.consultarPacientes());
-        servicepacientes.agregarConsultaPaciente(0, "CC", consulta);
+        servicepacientes.agregarConsultaPaciente(10142, "CC", consulta);
         assertEquals(servicepacientes.obtenerConsultasEps("famisanar").get(0),consulta);  
     }
     
@@ -76,7 +76,7 @@ public class ServiciosPacientesTest {
     public void RegistroPacientesTestCE1(){
         try{
             servicepacientes.registrarNuevoPaciente(paciente1);
-            assertTrue(servicepacientes.consultarPaciente(0, "cc").equals(paciente1));
+            assertTrue(servicepacientes.consultarPaciente(10, "cc").equals(paciente1));
         }catch(ExcepcionServiciosPacientes e){
             fail("Se ha producido una excepción:" + e.getMessage());
         }
