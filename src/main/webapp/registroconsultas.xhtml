@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3c.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Registro de Pacientes</title>
     </h:head>
     
     <h:body>
-        
+        <h:form id="Form_consultas" >
+            <p:panel id="panel_consultas" header="Consultas" visible="true">
+                <p:dataTable var="i" value="#{HistorialPacientes.paciente.consultas}">
+                <p:column headerText="Fecha">
+                    <h:outputText value="#{i.fechayHora}"/>
+                </p:column>
+                <p:column headerText="Resumen">
+                    <h:outputText value="#{i.resumen}"/>
+                </p:column>
+                <p:column headerText="Costo">
+                    <h:outputText value="#{i.costo}"/>
+                </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:panel id="panel_nueva_consulta" header="Nueva Consulta" visible="true">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel value="Fecha consulta"></p:outputLabel>
+                    <p:calendar id="calendario" value="#{HistorialPacientes.fechaConsulta}" showOn="button" pattern="MM/dd/yyyy HH:mm:ss" />
+                    
+                    <p:outputLabel value="Resumen"></p:outputLabel>
+                    <p:inputTextarea rows="6" cols="33" value="#{HistorialPacientes.resumen}"/>
+                    
+                    <p:outputLabel value="Costo"></p:outputLabel>
+                    <p:inputText id="costo" value="#{HistorialPacientes.costo}"/>
+                    
+                    <p:commandButton value="Registrar Consulta"  actionListener="#{HistorialPacientes.nuevaConsulta()}" update="Form_consultas"></p:commandButton>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
     </h:body>
 
 </html>

@@ -6,6 +6,7 @@
 package edu.eci.pdsw.samples.managebeans;
 
 
+import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
@@ -13,6 +14,7 @@ import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +33,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name = "HistorialPacientes")
 @SessionScoped
 public class RegistroConsultaBean implements Serializable {
+    
     private String nombre;
     private int id;
     private String tipoId;
@@ -38,6 +41,12 @@ public class RegistroConsultaBean implements Serializable {
     private String eps;
     private List<String> nombreEps = new ArrayList<String>();
     private Paciente paciente;
+
+    
+    
+    private Date fechaConsulta;
+    private String resumen;
+    private long costo;
 
 
 
@@ -114,6 +123,30 @@ public class RegistroConsultaBean implements Serializable {
         this.nombreEps = nombreEps;
     }
     
+    public Date getFechaConsulta() {
+        return fechaConsulta;
+    }
+
+    public void setFechaConsulta(Date fechaConsulta) {
+        this.fechaConsulta = fechaConsulta;
+    }
+
+    public String getResumen() {
+        return resumen;
+    }
+
+    public void setResumen(String resumen) {
+        this.resumen = resumen;
+    }
+
+    public long getCosto() {
+        return costo;
+    }
+
+    public void setCosto(long costo) {
+        this.costo = costo;
+    }
+    
     public void epsRegistradas() throws ExcepcionServiciosPacientes{
         for(Eps epss:servicepacientes.obtenerEPSsRegistradas()){
             nombreEps.add(epss.getNombre());
@@ -144,6 +177,9 @@ public class RegistroConsultaBean implements Serializable {
         return servicepacientes.consultarPacientes();
     }
     
-
+    public void nuevaConsulta() throws ExcepcionServiciosPacientes{
+        Consulta consulta = new Consulta(fechaConsulta,resumen,costo);
+        servicepacientes.agregarConsultaPaciente(paciente.getId(), paciente.getTipoId(), consulta);
+    }
 
 }

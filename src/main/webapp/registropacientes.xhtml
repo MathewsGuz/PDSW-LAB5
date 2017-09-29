@@ -5,35 +5,37 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head><title>Registro de Pacientes</title></h:head>
     <h:body>
-        <p:panel id="Registro_paciente" header="Registro de pacientes" visible="true" widgetVar="PanelNuevoItem" >
-            <h:panelGrid columns="2" cellpadding="5">
-                
-                <p:outputLabel value="Documento identidad" ></p:outputLabel>
-                <p:inputText id="Id" value="#{HistorialPacientes.id}"/>
-                
-                <p:outputLabel value="Tipo de documento"></p:outputLabel>
-                <p:inputText id="TipoId" value="#{HistorialPacientes.tipoId}"/>
-                
-                <p:outputLabel value="Nombre del paciente"></p:outputLabel>
-                <p:inputText id="nombre" value="#{HistorialPacientes.nombre}"/>
-                
-                <p:outputLabel value="Fecha nacimiento"></p:outputLabel>
-                <p:calendar id="Fnaci" value="#{HistorialPacientes.fechaNacimiento}" showOn="button" />
-                
-                <p:outputLabel value="EPS"></p:outputLabel>
-                <h:selectOneMenu id="eps" value="#{HistorialPacientes.eps}">
-                    <f:selectItems value="#{HistorialPacientes.nombreEps}" />
-                </h:selectOneMenu>
-                <p:commandButton value="Registrar" actionListener="#{HistorialPacientes.registrarPaciente()}" update="pacientes" action="registroconsultas"></p:commandButton>
-            </h:panelGrid>
-        </p:panel>
-        <p:panel id="pacientes" header="Pacientes" visible="true">
-            <p:dataTable var="i" value="#{HistorialPacientes.mostrarPacientes()}" selectionMode="single" selection="#{HistorialPacientes.paciente}" rowKey="#{i.id}">
-                <p:column headerText="Nombre Pacientes">
-                    <h:outputText value="#{i.nombre}"/>
-                </p:column>
-            </p:dataTable>
-            <p:commandButton value="Registrar Cita" action="registroconsultas"></p:commandButton>
-        </p:panel>
+        <h:form id="form_Registropaciente">
+            <p:panel id="Registro_paciente" header="Registro de pacientes" visible="true" widgetVar="PanelNuevoItem" >
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <p:outputLabel value="Documento identidad" ></p:outputLabel>
+                    <p:inputText id="Id" value="#{HistorialPacientes.id}"/>
+
+                    <p:outputLabel value="Tipo de documento"></p:outputLabel>
+                    <p:inputText id="TipoId" value="#{HistorialPacientes.tipoId}"/>
+
+                    <p:outputLabel value="Nombre del paciente"></p:outputLabel>
+                    <p:inputText id="nombre" value="#{HistorialPacientes.nombre}"/>
+
+                    <p:outputLabel value="Fecha nacimiento"></p:outputLabel>
+                    <p:calendar id="Fnaci" value="#{HistorialPacientes.fechaNacimiento}" showOn="button" />
+
+                    <p:outputLabel value="EPS"></p:outputLabel>
+                    <h:selectOneMenu id="eps" value="#{HistorialPacientes.eps}">
+                        <f:selectItems value="#{HistorialPacientes.nombreEps}" />
+                    </h:selectOneMenu>
+                    <p:commandButton value="Registrar" update="form_Registropaciente" actionListener="#{HistorialPacientes.registrarPaciente()}" ></p:commandButton>
+                </h:panelGrid>
+            </p:panel>
+            <p:panel id="pacientes" header="Pacientes" visible="true">
+                <p:dataTable var="i" value="#{HistorialPacientes.mostrarPacientes()}" selectionMode="single" selection="#{HistorialPacientes.paciente}" rowKey="#{i.id}">
+                    <p:column headerText="Nombre Pacientes">
+                        <h:outputText value="#{i.nombre}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Registrar Cita" action="registroconsultas"></p:commandButton>
+            </p:panel>
+        </h:form>
     </h:body>
 </html>
