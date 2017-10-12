@@ -33,12 +33,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.PersistenceException;
 
 /**
  *
  * @author hcadavid
  */
-public class ServiciosPacientesMock implements ServiciosPacientes {
+public class ServiciosPacientesImpl implements ServiciosPacientes {
 
     @Inject
     public PacienteDAO pacienteDAO;
@@ -50,7 +51,7 @@ public class ServiciosPacientesMock implements ServiciosPacientes {
     private final List<Eps> epsregistradas;
     private int idconsulta = 1;
 
-    public ServiciosPacientesMock() {
+    public ServiciosPacientesImpl() {
         this.pacientes = new LinkedHashMap<>();
         epsregistradas = new LinkedList<>();
         cargarDatosEstaticos(pacientes);
@@ -58,39 +59,43 @@ public class ServiciosPacientesMock implements ServiciosPacientes {
 
     @Override
     public Paciente consultarPaciente(int idPaciente, String tipoid) throws ExcepcionServiciosPacientes {
-        Paciente paciente = pacientes.get(new Tupla<>(idPaciente, tipoid));
-        if (paciente == null) {
-            throw new ExcepcionServiciosPacientes("Paciente " + idPaciente + " no esta registrado");
-        } else {
+        try{
+            Paciente paciente = pacienteDAO.loadByID(idPaciente, tipoid);
             return paciente;
+        }catch(PersistenceException e){
+            throw new ExcepcionServiciosPacientes("Paciente " + idPaciente + " no esta registrado",e);
         }
-
     }
 
     @Override
     public void registrarNuevoPaciente(Paciente paciente) throws ExcepcionServiciosPacientes {
-        pacientes.put(new Tupla<>(paciente.getId(), paciente.getTipoId()), paciente);
+        try{
+            pacienteDAO.save(paciente);
+        }catch(PersistenceException e){
+            throw new ExcepcionServiciosPacientes("Paciente " + paciente.getNombre() + " no se a podido registrar",e);
+        }
         
     }
 
     @Override
     public void agregarConsultaPaciente(int idPaciente, String tipoid, Consulta consulta) throws ExcepcionServiciosPacientes {
         
-        Paciente paciente = pacientes.get(new Tupla<>(idPaciente, tipoid));
-        if (paciente != null) {
-            consulta.setId(idconsulta);
-            idconsulta++;
+        try{
+            Paciente paciente = pacienteDAO.loadByID(idPaciente, tipoid);
             paciente.getConsultas().add(consulta);
-        } else {
-            throw new ExcepcionServiciosPacientes("Paciente " + idPaciente + " no esta registrado");
+            pacienteDAO.update(idPaciente, tipoid, paciente.getEps(), paciente.getFechaNacimiento());
+        }catch(PersistenceException e){
+            throw new ExcepcionServiciosPacientes("Paciente " + idPaciente + " no ha sido posible agregar consulta",e);
         }
     }
 
     @Override
     public List<Paciente> consultarPacientes() throws ExcepcionServiciosPacientes {
-        List<Paciente> temp = new ArrayList<>();
-        temp.addAll(pacientes.values());
-        return temp;
+        try{
+            return pacienteDAO.loadAll();
+        }catch(PersistenceException e){
+            throw new ExcepcionServiciosPacientes("No se ha podido obtener los pacientes",e);
+        }
     }
 
     @Override
@@ -191,14 +196,18 @@ public class ServiciosPacientesMock implements ServiciosPacientes {
             agregarConsultaPaciente(7, "CC", consulta9);
 
         } catch (ExcepcionServiciosPacientes ex) {
-            Logger.getLogger(ServiciosPacientesMock.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
     
     @Override
     public List<Eps> obtenerEPSsRegistradas() throws ExcepcionServiciosPacientes {
-        return epsregistradas;
+        try{
+            return epsDAO.loadAll();
+        }catch(PersistenceException e){
+            throw new ExcepcionServiciosPacientes("No se ha podido obtener las EPS",e);
+        }
     }
 
 }

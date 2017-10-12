@@ -17,7 +17,7 @@
 package edu.eci.pdsw.samples.entities;
 
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;

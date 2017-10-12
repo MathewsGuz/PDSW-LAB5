@@ -5,14 +5,16 @@
  */
 package edu.eci.pdsw.samples.services;
 
-import com.google.inject.AbstractModule;
 import static com.google.inject.Guice.createInjector;
 import com.google.inject.Injector;
 import edu.eci.pdsw.persistence.impl.mappers.EPSDAO;
 import edu.eci.pdsw.persistence.impl.mappers.PacienteDAO;
 import edu.eci.pdsw.persistence.mybatis.EPSDAOMyBATIS;
 import edu.eci.pdsw.persistence.mybatis.PacienteDAOMyBATIS;
-import edu.eci.pdsw.samples.services.impl.ServiciosPacientesMock;
+import edu.eci.pdsw.samples.services.impl.ServiciosPacientesImpl;
+import org.mybatis.guice.XMLMyBatisModule;
+import org.mybatis.guice.datasource.helper.JdbcHelper;
+import static com.google.inject.Guice.createInjector;
 
 
 /**
@@ -24,21 +26,38 @@ public class ServiciosHistorialPacientesFactory {
     private static ServiciosHistorialPacientesFactory instance = new ServiciosHistorialPacientesFactory();
 
     private static Injector injector;
+    private static Injector testInjector;
 
     public ServiciosHistorialPacientesFactory() {
 
-        injector = createInjector(new AbstractModule() {
+        injector = createInjector(new XMLMyBatisModule(){
+            @Override
+            protected void initialize() {
+                install(JdbcHelper.MySQL);              
+                setClassPathResource("mybatis-config.xml");
+                bind(ServiciosPacientes.class).to(ServiciosPacientesImpl.class);
+                bind(EPSDAO.class).to(EPSDAOMyBATIS.class);                
+                bind(PacienteDAO.class).to(PacienteDAOMyBATIS.class);
+            }
+        }
+        );
+        testInjector = createInjector(new XMLMyBatisModule() {
 
             @Override
-            protected void configure() {
-                bind(ServiciosPacientes.class).to(ServiciosPacientesMock.class);
+            protected void initialize() {
+                install(JdbcHelper.PostgreSQL);
+                setClassPathResource("mybatis-config-h2.xml");
+                bind(ServiciosPacientes.class).to(ServiciosPacientesImpl.class);
+                bind(EPSDAO.class).to(EPSDAOMyBATIS.class);                
                 bind(PacienteDAO.class).to(PacienteDAOMyBATIS.class);
-                bind(EPSDAO.class).to(EPSDAOMyBATIS.class); 
             }
-
         }
         );
 
+    }
+    
+    public ServiciosPacientes getTestingServiciosPaciente() {
+        return testInjector.getInstance(ServiciosPacientes.class);
     }
 
     public ServiciosPacientes getServiciosPaciente() {
@@ -48,5 +67,7 @@ public class ServiciosHistorialPacientesFactory {
     public static ServiciosHistorialPacientesFactory getInstance() {
         return instance;
     }
+    
+    
 
 }

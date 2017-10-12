@@ -5,14 +5,20 @@
  */
 package edu.eci.pdsw.persistence.impl.mappers;
 
+import edu.eci.pdsw.samples.entities.Eps;
+import edu.eci.pdsw.samples.entities.Paciente;
+import java.sql.Date;
+import java.util.List;
+
 /**
  *
  * @author Guzman
  */
 public interface PacienteDAO {
-    public void loadAll();
+    public List<Paciente> loadAll();
     public void load();
-    public void loadByID();
-    public void save();
-    public void update();
+    public Paciente loadByID(int id, String tipoid);
+    public void save(Paciente p);
+    public void update(int id,String nombre,Eps eps, Date fechaNacimiento);
+    
 }
