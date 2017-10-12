@@ -15,7 +15,7 @@ import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 import org.junit.Before;
@@ -54,7 +54,7 @@ public class ServiciosPacientesTest {
     
     @Before
     public void setUp() {
-        servicepacientes = ServiciosHistorialPacientesFactory.getInstance().getServiciosPaciente();
+        servicepacientes = ServiciosHistorialPacientesFactory.getInstance().getTestingServiciosPaciente();
     }
 //    EQ1
 //    Descripcion :Deberia confirmar que un paciente se encuentra registrado

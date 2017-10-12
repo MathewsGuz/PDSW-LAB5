@@ -8,6 +8,10 @@ package edu.eci.pdsw.persistence.mybatis;
 import com.google.inject.Inject;
 import edu.eci.pdsw.persistence.impl.mappers.EPSDAO;
 import edu.eci.pdsw.persistence.impl.mappers.EpsMapper;
+import edu.eci.pdsw.samples.entities.Eps;
+import java.util.List;
+import javax.persistence.PersistenceException;
+import org.mybatis.guice.transactional.Transactional;
 
 /**
  *
@@ -18,27 +22,36 @@ public class EPSDAOMyBATIS implements EPSDAO {
     @Inject
     private EpsMapper epsMapper;
     
+    @Transactional
     @Override
-    public void loadAll() {
-        epsMapper.loadAllEPS();
+    public List<Eps> loadAll() throws PersistenceException {
+        try{
+            return epsMapper.loadAllEPS();
+        }catch(Exception e){
+            throw new PersistenceException("Error al cargar eps",e);
+
+        }
     }
     
-
+    @Transactional
     @Override
     public void load() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Transactional
     @Override
     public void loadByID() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Transactional
     @Override
     public void save() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Transactional
     @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

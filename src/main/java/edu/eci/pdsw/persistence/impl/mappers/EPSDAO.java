@@ -5,12 +5,15 @@
  */
 package edu.eci.pdsw.persistence.impl.mappers;
 
+import edu.eci.pdsw.samples.entities.Eps;
+import java.util.List;
+
 /**
  *
  * @author Guzman
  */
 public interface EPSDAO {
-    public void loadAll();
+    public List<Eps> loadAll();
     public void load();
     public void loadByID();
     public void save();
