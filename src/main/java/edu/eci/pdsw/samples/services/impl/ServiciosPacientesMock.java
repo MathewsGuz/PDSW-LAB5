@@ -16,6 +16,9 @@
  */
 package edu.eci.pdsw.samples.services.impl;
 
+import com.google.inject.Inject;
+import edu.eci.pdsw.persistence.impl.mappers.EPSDAO;
+import edu.eci.pdsw.persistence.impl.mappers.PacienteDAO;
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
@@ -28,7 +31,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +40,12 @@ import java.util.logging.Logger;
  */
 public class ServiciosPacientesMock implements ServiciosPacientes {
 
+    @Inject
+    public PacienteDAO pacienteDAO;
+    
+    @Inject
+    private EPSDAO epsDAO;
+    
     private final Map<Tupla<Integer, String>, Paciente> pacientes;
     private final List<Eps> epsregistradas;
     private int idconsulta = 1;
