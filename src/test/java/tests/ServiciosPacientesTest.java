@@ -16,6 +16,7 @@ import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
 import java.sql.Date;
+import java.util.List;
 
 
 import org.junit.Before;
@@ -62,13 +63,19 @@ public class ServiciosPacientesTest {
     
     @Test
     public void pruebaRegistroDeConsulta() throws ExcepcionServiciosPacientes{
-        eps7 = new Eps("famisanar", "01234567890-2");
-        servicepacientes.obtenerEPSsRegistradas().add(eps7);
-        mateo = new Paciente(10142,"CC", "Julian Diaz", java.sql.Date.valueOf("1956-05-01"), eps7);
-        consulta= new Consulta(java.sql.Date.valueOf("2000-02-09"), "Dolor de oido", 322);
-        servicepacientes.registrarNuevoPaciente(mateo);
-        servicepacientes.agregarConsultaPaciente(10142, "CC", consulta);
-        assertEquals(servicepacientes.obtenerConsultasEps("famisanar").get(0),consulta);  
+        try{
+            eps7 = new Eps("famisanar", "01234567890-2");
+            List<Eps> lista = servicepacientes.obtenerEPSsRegistradas();
+            lista.add(eps7);
+            mateo = new Paciente(10142,"CC", "Julian Diaz", java.sql.Date.valueOf("1956-05-01"), eps7);
+            consulta= new Consulta(java.sql.Date.valueOf("2000-02-09"), "Dolor de oido", 322);
+            servicepacientes.registrarNuevoPaciente(mateo);
+            servicepacientes.agregarConsultaPaciente(10142, "CC", consulta);
+            assertEquals(servicepacientes.obtenerConsultasEps("famisanar").get(0),consulta);  
+        }catch(ExcepcionServiciosPacientes e){
+            fail("Se ha producido una excepción:" + e.getMessage());
+            }
+       
     }
     
     

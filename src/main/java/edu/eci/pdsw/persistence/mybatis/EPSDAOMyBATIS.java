@@ -22,7 +22,6 @@ public class EPSDAOMyBATIS implements EPSDAO {
     @Inject
     private EpsMapper epsMapper;
     
-    @Transactional
     @Override
     public List<Eps> loadAll() throws PersistenceException {
         try{
@@ -33,25 +32,25 @@ public class EPSDAOMyBATIS implements EPSDAO {
         }
     }
     
-    @Transactional
+   
     @Override
     public void load() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Transactional
+ 
     @Override
     public void loadByID() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Transactional
+
     @Override
     public void save() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Transactional
+
     @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

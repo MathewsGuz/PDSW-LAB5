@@ -16,7 +16,7 @@
  */
 package edu.eci.pdsw.samples.entities;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 
@@ -35,7 +35,6 @@ public class Consulta {
     
     
     public Consulta(Date fechayHora, String resumen,long costo) {
-        this.id=-1;
         this.fechayHora = fechayHora;
         this.resumen = resumen;
         this.costo=costo;
