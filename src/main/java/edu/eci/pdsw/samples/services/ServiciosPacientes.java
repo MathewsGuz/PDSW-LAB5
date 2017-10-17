@@ -20,7 +20,7 @@ package edu.eci.pdsw.samples.services;
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
-import java.util.Date;
+import java.sql.Date;
 
 import java.util.List;
 

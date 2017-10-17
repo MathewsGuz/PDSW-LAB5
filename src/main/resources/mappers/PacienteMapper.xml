@@ -46,7 +46,7 @@
             FROM  CM_PACIENTES as p left join CM_CONSULTAS as c on p.id=c.PACIENTES_id left join CM_EPS as e on p.eps_nit=e.nit
     </select>
     
-    <insert id="insertarPaciente">
+    <insert  parameterType="map" id="insertarPaciente">
         insert into CM_PACIENTES(id,tipo_id,nombre,fecha_nacimiento,EPS_nit)
         values (#{p.id},#{p.tipoId},#{p.nombre},#{p.fechaNacimiento},#{p.eps.nit})
     </insert>

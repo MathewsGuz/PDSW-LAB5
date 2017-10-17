@@ -26,7 +26,7 @@ import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
+import org.mybatis.guice.transactional.Transactional;
 
 /**
  *
@@ -48,35 +49,42 @@ public class ServiciosPacientesImpl implements ServiciosPacientes {
     private EPSDAO epsDAO;
     
     private final Map<Tupla<Integer, String>, Paciente> pacientes;
-    private final List<Eps> epsregistradas;
+    private List<Eps> epsregistradas;
     private int idconsulta = 1;
 
     public ServiciosPacientesImpl() {
         this.pacientes = new LinkedHashMap<>();
         epsregistradas = new LinkedList<>();
-        cargarDatosEstaticos(pacientes);
+//        cargarDatosEstaticos(pacientes);
     }
-
+    
+    @Transactional
     @Override
     public Paciente consultarPaciente(int idPaciente, String tipoid) throws ExcepcionServiciosPacientes {
+        Paciente paciente=null;
         try{
-            Paciente paciente = pacienteDAO.loadByID(idPaciente, tipoid);
-            return paciente;
-        }catch(PersistenceException e){
-            throw new ExcepcionServiciosPacientes("Paciente " + idPaciente + " no esta registrado",e);
+            paciente = pacienteDAO.loadByID(idPaciente, tipoid);
+        }catch (PersistenceException ex) {
+            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if(paciente.equals(null)){
+            throw new ExcepcionServiciosPacientes("No se cargo ningun paciente");
+        }
+        return paciente;
     }
-
+    
+    @Transactional
     @Override
     public void registrarNuevoPaciente(Paciente paciente) throws ExcepcionServiciosPacientes {
         try{
             pacienteDAO.save(paciente);
-        }catch(PersistenceException e){
-            throw new ExcepcionServiciosPacientes("Paciente " + paciente.getNombre() + " no se a podido registrar",e);
-        }
+        }catch (PersistenceException ex) {
+            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } 
         
     }
 
+    @Transactional
     @Override
     public void agregarConsultaPaciente(int idPaciente, String tipoid, Consulta consulta) throws ExcepcionServiciosPacientes {
         
@@ -84,24 +92,27 @@ public class ServiciosPacientesImpl implements ServiciosPacientes {
             Paciente paciente = pacienteDAO.loadByID(idPaciente, tipoid);
             paciente.getConsultas().add(consulta);
             pacienteDAO.update(idPaciente, tipoid, paciente.getEps(), paciente.getFechaNacimiento());
-        }catch(PersistenceException e){
-            throw new ExcepcionServiciosPacientes("Paciente " + idPaciente + " no ha sido posible agregar consulta",e);
-        }
+        }catch (PersistenceException ex) {
+            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
+    @Transactional
     @Override
     public List<Paciente> consultarPacientes() throws ExcepcionServiciosPacientes {
+        List<Paciente> temp = new ArrayList<>();
         try{
-            return pacienteDAO.loadAll();
-        }catch(PersistenceException e){
-            throw new ExcepcionServiciosPacientes("No se ha podido obtener los pacientes",e);
-        }
+            temp=pacienteDAO.loadAll();
+        }catch (PersistenceException ex) {
+            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }return temp;
     }
 
+    @Transactional
     @Override
     public List<Consulta> obtenerConsultasEpsPorFecha(String nameEps, Date fechaInicio, Date fechaFin) throws ExcepcionServiciosPacientes {
         List<Consulta> temp = new ArrayList<>();
-        for (Paciente paciente : pacientes.values()) {
+        for (Paciente paciente : pacienteDAO.loadAll()) {
             if (paciente.getEps().getNombre().equals(nameEps)) {
                 for (Consulta consulta : paciente.getConsultas()) {
                     if (consulta.getFechayHora().before(fechaFin) && consulta.getFechayHora().after(fechaInicio)) {
@@ -113,24 +124,28 @@ public class ServiciosPacientesImpl implements ServiciosPacientes {
         return temp;
     }
 
+    @Transactional
     @Override
     public List<Consulta> obtenerConsultasEps(String nameEps) throws ExcepcionServiciosPacientes {
         List<Consulta> temp = new ArrayList<>();
-        for (Paciente paciente : pacientes.values()) {
+        for (Paciente paciente : pacienteDAO.loadAll()) {
             if (paciente.getEps().getNombre().equals(nameEps)) {
                 temp.addAll(paciente.getConsultas());
             }
         }
+
         if (temp.isEmpty()) {
             throw new ExcepcionServiciosPacientes("La EPS " + nameEps + " no se encuentra asociada a ningun paciente o no existe ");
         }
+       
         return temp;
     }
 
+    @Transactional
     @Override
     public long obtenerCostoEpsPorFecha(String nameEps, Date fechaInicio, Date fechaFin) throws ExcepcionServiciosPacientes {
         long deuda = 0;
-        for (Paciente paciente : pacientes.values()) {
+        for (Paciente paciente : pacienteDAO.loadAll()) {
             if (paciente.getEps().getNombre().equals(nameEps)) {
                 for (Consulta consulta : paciente.getConsultas()) {
                     if (consulta.getFechayHora().after(fechaInicio) && consulta.getFechayHora().before(fechaFin)) {
@@ -201,13 +216,18 @@ public class ServiciosPacientesImpl implements ServiciosPacientes {
 
     }
     
+    @Transactional
     @Override
     public List<Eps> obtenerEPSsRegistradas() throws ExcepcionServiciosPacientes {
         try{
-            return epsDAO.loadAll();
-        }catch(PersistenceException e){
-            throw new ExcepcionServiciosPacientes("No se ha podido obtener las EPS",e);
-        }
+            epsregistradas = epsDAO.loadAll();
+            
+        }catch (PersistenceException ex) {
+            Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
+          
+            
+        }return epsregistradas;
+        
     }
 
 }

@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package edu.eci.pdsw.samples.services;
-
-import static com.google.inject.Guice.createInjector;
 import com.google.inject.Injector;
 import edu.eci.pdsw.persistence.impl.mappers.EPSDAO;
 import edu.eci.pdsw.persistence.impl.mappers.PacienteDAO;
