@@ -64,9 +64,8 @@ public class ServiciosPacientesTest {
     @Test
     public void pruebaRegistroDeConsulta() throws ExcepcionServiciosPacientes{
         try{
-            
+            servicepacientes.registrarNuevoPaciente(mateo);
             consulta= new Consulta(java.sql.Date.valueOf("2000-02-09"), "Dolor de oido", 322);
-//            servicepacientes.registrarNuevoPaciente(mateo);
             Paciente mateo1 = servicepacientes.consultarPaciente(23456,"CC");
             servicepacientes.agregarConsultaPaciente(23456, "CC", consulta);
             mateo = servicepacientes.consultarPaciente(23456,"CC");
