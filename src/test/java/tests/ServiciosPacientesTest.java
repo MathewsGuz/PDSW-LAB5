@@ -46,8 +46,8 @@ public class ServiciosPacientesTest {
             
     
     public ServiciosPacientesTest() {
-
-        
+        eps7 = new Eps("famisanar", "01234567890-2");
+        mateo = new Paciente(23456,"CC", "Julian ", java.sql.Date.valueOf("1956-05-01"), eps7);
         this.nuevaEps = new Eps("nuevaEps","123732345");
         this.paciente1 = new Paciente(10, "cc", "Paciente1", new Date(803109600000l),nuevaEps);
 
@@ -64,10 +64,7 @@ public class ServiciosPacientesTest {
     @Test
     public void pruebaRegistroDeConsulta() throws ExcepcionServiciosPacientes{
         try{
-            eps7 = new Eps("famisanar", "01234567890-2");
-            List<Eps> lista = servicepacientes.obtenerEPSsRegistradas();
-            lista.add(eps7);
-//            mateo = new Paciente(23456,"CC", "Julian ", java.sql.Date.valueOf("1956-05-01"), eps7);
+            
             consulta= new Consulta(java.sql.Date.valueOf("2000-02-09"), "Dolor de oido", 322);
 //            servicepacientes.registrarNuevoPaciente(mateo);
             Paciente mateo1 = servicepacientes.consultarPaciente(23456,"CC");
