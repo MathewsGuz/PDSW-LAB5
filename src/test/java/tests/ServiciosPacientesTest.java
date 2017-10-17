@@ -67,11 +67,15 @@ public class ServiciosPacientesTest {
             eps7 = new Eps("famisanar", "01234567890-2");
             List<Eps> lista = servicepacientes.obtenerEPSsRegistradas();
             lista.add(eps7);
-            mateo = new Paciente(10142,"CC", "Julian Diaz", java.sql.Date.valueOf("1956-05-01"), eps7);
+//            mateo = new Paciente(23456,"CC", "Julian ", java.sql.Date.valueOf("1956-05-01"), eps7);
             consulta= new Consulta(java.sql.Date.valueOf("2000-02-09"), "Dolor de oido", 322);
-            servicepacientes.registrarNuevoPaciente(mateo);
-            servicepacientes.agregarConsultaPaciente(10142, "CC", consulta);
-            assertEquals(servicepacientes.obtenerConsultasEps("famisanar").get(0),consulta);  
+//            servicepacientes.registrarNuevoPaciente(mateo);
+            Paciente mateo1 = servicepacientes.consultarPaciente(23456,"CC");
+            servicepacientes.agregarConsultaPaciente(23456, "CC", consulta);
+            mateo = servicepacientes.consultarPaciente(23456,"CC");
+            
+            System.out.println(mateo.getConsultas().contains(consulta));
+            assertTrue(mateo.getConsultas().size()==mateo1.getConsultas().size()+1);
         }catch(ExcepcionServiciosPacientes e){
             fail("Se ha producido una excepción:" + e.getMessage());
             }

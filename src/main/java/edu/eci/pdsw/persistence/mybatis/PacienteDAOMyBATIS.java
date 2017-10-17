@@ -8,6 +8,7 @@ package edu.eci.pdsw.persistence.mybatis;
 import com.google.inject.Inject;
 import edu.eci.pdsw.persistence.impl.mappers.PacienteDAO;
 import edu.eci.pdsw.persistence.impl.mappers.PacienteMapper;
+import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
 import java.sql.Date;
@@ -66,9 +67,16 @@ public class PacienteDAOMyBATIS implements PacienteDAO {
     
 
     @Override
-    public void update(int id, String nombre, Eps eps, Date fechaNacimiento) throws PersistenceException {
+    public void update(int id, String tipoid, String nombre, Eps eps, Date fechaNacimiento) throws PersistenceException {
         try{
+            Paciente paci=loadByID(id,tipoid);
+            for(Consulta i: paci.getConsultas()){
+                if(i.getId()==0 && i.getFechayHora()!=null){
+                    pacienteMapper.insertConsulta(i, id, tipoid, (int)i.getCosto());
+                }
+            }
             pacienteMapper.updatePaciente(id, nombre, eps, fechaNacimiento);
+            
         }catch(Exception e){
             throw new PersistenceException("Error al actualizar paciente"+id,e);
         }
