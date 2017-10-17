@@ -19,6 +19,6 @@ public interface PacienteDAO {
     public void load();
     public Paciente loadByID(int id, String tipoid);
     public void save(Paciente p);
-    public void update(int id,String nombre,Eps eps, Date fechaNacimiento);
+    public void update(int id,String tipoid,String nombre,Eps eps, Date fechaNacimiento);
     
 }

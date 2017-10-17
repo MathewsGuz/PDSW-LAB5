@@ -91,7 +91,7 @@ public class ServiciosPacientesImpl implements ServiciosPacientes {
         try{
             Paciente paciente = pacienteDAO.loadByID(idPaciente, tipoid);
             paciente.getConsultas().add(consulta);
-            pacienteDAO.update(idPaciente, tipoid, paciente.getEps(), paciente.getFechaNacimiento());
+            pacienteDAO.update(idPaciente, tipoid, paciente.getNombre(), paciente.getEps(), paciente.getFechaNacimiento());
         }catch (PersistenceException ex) {
             Logger.getLogger(ServiciosPacientesImpl.class.getName()).log(Level.SEVERE, null, ex);
         } 
