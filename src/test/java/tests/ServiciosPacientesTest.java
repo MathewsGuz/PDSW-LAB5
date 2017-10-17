@@ -16,7 +16,6 @@ import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
 import java.sql.Date;
-import java.util.List;
 
 
 import org.junit.Before;
