@@ -15,7 +15,7 @@ import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;

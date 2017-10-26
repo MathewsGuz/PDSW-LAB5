@@ -16,7 +16,7 @@
  */
 package edu.eci.pdsw.samples.entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 

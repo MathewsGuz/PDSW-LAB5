@@ -15,7 +15,7 @@ import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosHistorialPacientesFactory;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 import org.junit.Before;

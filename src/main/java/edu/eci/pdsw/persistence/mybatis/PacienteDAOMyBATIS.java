@@ -11,9 +11,9 @@ import edu.eci.pdsw.persistence.impl.mappers.PacienteMapper;
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
-import javax.persistence.PersistenceException;
+import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
  *
@@ -27,7 +27,7 @@ public class PacienteDAOMyBATIS implements PacienteDAO {
     
 
     @Override
-    public List<Paciente> loadAll() {
+    public List<Paciente> loadAll() throws PersistenceException{
         try{
            return pacienteMapper.loadPacientes();
         }catch(Exception e){
@@ -44,7 +44,7 @@ public class PacienteDAOMyBATIS implements PacienteDAO {
     
 
     @Override
-    public void save(Paciente p) {
+    public void save(Paciente p) throws PersistenceException{
         try{
             pacienteMapper.insertarPaciente(p);
 //            pacienteMapper.updatePaciente(p.getId(), p.getNombre(), p.getEps(), p.getFechaNacimiento());

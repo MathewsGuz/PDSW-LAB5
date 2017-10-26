@@ -7,7 +7,7 @@ package edu.eci.pdsw.persistence.impl.mappers;
 
 import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**

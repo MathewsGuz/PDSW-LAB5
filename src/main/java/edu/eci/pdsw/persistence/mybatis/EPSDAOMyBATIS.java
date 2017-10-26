@@ -10,7 +10,7 @@ import edu.eci.pdsw.persistence.impl.mappers.EPSDAO;
 import edu.eci.pdsw.persistence.impl.mappers.EpsMapper;
 import edu.eci.pdsw.samples.entities.Eps;
 import java.util.List;
-import javax.persistence.PersistenceException;
+import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
  *

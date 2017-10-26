@@ -18,8 +18,8 @@
             e.nombre as Eps_nombre,
             e.nit as Eps_nit,
 
-            c.idCONSULTAS as Consulta_id,
-            c.fecha_y_hora as Consulta_fechayhora,
+            c.idCONSULTAS as Consulta_idCONSULTAS,
+            c.fecha_y_hora as Consulta_fecha_y_hora,
             c.resumen as Consulta_resumen,
             c.costo as Consulta_costo
 
@@ -38,8 +38,8 @@
             e.nombre as Eps_nombre,
             e.nit as Eps_nit,
 
-            c.idCONSULTAS as Consulta_id,
-            c.fecha_y_hora as Consulta_fechayhora,
+            c.idCONSULTAS as Consulta_idCONSULTAS,
+            c.fecha_y_hora as Consulta_fecha_y_hora,
             c.resumen as Consulta_resumen,
             c.costo as Consulta_costo
 
